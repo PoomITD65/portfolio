@@ -230,8 +230,8 @@ export default function Portfolio() {
         <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
           <h3 className="font-semibold text-neutral-900">Achievements</h3>
           <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-            <li>Thailand National Youth Games #3ุ6 (Surat thani Games) — Men’s Team</li>
-            <li>Thailand National Youth Games #3ุ7 (Phatthalung Games) — Men’s Team (Competed after Southern Regional qualification)</li> 
+            <li>Thailand National Youth Games #36 (Surat thani Games) — Men’s Team</li>
+            <li>Thailand National Youth Games #37 (Phatthalung Games) — Men’s Team (Competed after Southern Regional qualification)</li> 
             <li>Thailand National Youth Games #38 (Nakhon Sawan Games) — Men’s Team (Competed after Southern Regional qualification)</li>
             <li>Thailand National Games #48 (Phuket Games) — Men’s Team (Not qualified Southern Regional Tournament)</li>
             <li>Thailand National Games #49 (Trang Games) — Mixed Pair (Not qualified via Southern Regional Tournament)</li>
