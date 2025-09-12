@@ -86,7 +86,7 @@ export default function Portfolio() {
             </div>
             <div className="md:justify-self-end">
                 <img
-                  src="/poom.png"
+                  src={${import.meta.env.https://poomitd65.github.io/portfolio/}profile.png}
                   alt="Pumipath Muangthong"
                   className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm"
                 />
