@@ -1,6 +1,6 @@
 import { useMemo, type ReactNode } from "react";
 
-// Single‑file React portfolio (TailwindCSS)
+// Single-file React portfolio (TailwindCSS)
 // Paste into a Next.js/Vite project with Tailwind enabled.
 
 const SECTIONS = [
@@ -26,7 +26,7 @@ export default function Portfolio() {
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           <a href="#home" className="font-black tracking-tight text-lg md:text-xl">PUMIPATH MUANGTHONG</a>
           <nav className="hidden md:flex items-center gap-6">
-            {nav.map((s: { id: any; label: any; }) => (
+            {nav.map((s: { id: string; label: string }) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
@@ -64,7 +64,18 @@ export default function Portfolio() {
         />
         <div className="relative mx-auto max-w-6xl px-4 pt-14 pb-10 md:pb-16">
           <div className="grid md:grid-cols-3 gap-8 items-center">
-            <div className="md:col-span-2">
+            {/* ภาพ: มือถืออยู่บน, เดสก์ท็อปขวา */}
+            <div className="order-1 md:order-2 md:justify-self-end">
+              <img
+                src={`${import.meta.env.BASE_URL}poom.png`}
+                alt="Pumipath Muangthong"
+                className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm"
+              />
+              <div className="mt-4 text-xs text-neutral-500">Nakhon Si Thammarat, Thailand</div>
+            </div>
+
+            {/* ข้อความ: มือถืออยู่ล่าง, เดสก์ท็อปซ้าย และกิน 2 คอลัมน์ */}
+            <div className="md:col-span-2 order-2 md:order-1">
               <p className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-600 shadow-sm">
                 <span className="inline-block h-2 w-2 rounded-full bg-neutral-900" /> Available for projects
               </p>
@@ -77,24 +88,16 @@ export default function Portfolio() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href="#projects" className="px-4 py-2 rounded-2xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">See Projects</a>
                 <a href="#contact" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Get In Touch</a>
-                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`}className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Download Résumé</a>
+                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`} className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Download Résumé</a>
                 <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100 inline-flex items-center gap-2">
                   <GitHubIcon className="w-4 h-4" />
                   GitHub
                 </a>
               </div>
             </div>
-            <div className="md:justify-self-end">
-                <img
-                  src={`${import.meta.env.BASE_URL}poom.png`}
-                  alt="Pumipath Muangthong"
-                  className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm"
-                />
-                <div className="mt-4 text-xs text-neutral-500">Nakhon Si Thammarat, Thailand</div>
-              </div>
-                      </div>
-                    </div>
-                  </section>
+          </div>
+        </div>
+      </section>
 
       {/* Profile Snapshot */}
       <SiteSection id="about" title="Profile Snapshot">
@@ -131,7 +134,7 @@ export default function Portfolio() {
             <Tag>ESP32 / sensors</Tag>
           </Card>
           <Card title="Data & ML">
-            <Tag>scikit‑learn</Tag>
+            <Tag>scikit-learn</Tag>
             <Tag>Pandas</Tag>
             <Tag>Data Collection</Tag>
             <Tag>Model Evaluation</Tag>
@@ -164,7 +167,7 @@ export default function Portfolio() {
             title="Panic Disorder Risk Prediction"
             time="2023"
             bullets={[
-              "Explored ML approaches to estimate panic‑disorder risk",
+              "Explored ML approaches to estimate panic-disorder risk",
               "Prepared datasets and evaluation pipeline",
             ]}
           />
@@ -221,7 +224,7 @@ export default function Portfolio() {
             <Tag>Thailand National Games #49 — Trang Games</Tag>
             <Tag>Chanthaburi Games (National Games #49)</Tag>
             <Tag>Thailand National Youth Games #38 — Nakhon Sawan</Tag>
-          </Card> 
+          </Card>
           <Card title="Medals">
             <Tag>🥈 Silver — Team (Men)</Tag>
             <Tag>🥉 Bronze — Pair Mixed</Tag>
@@ -231,7 +234,7 @@ export default function Portfolio() {
           <h3 className="font-semibold text-neutral-900">Achievements</h3>
           <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
             <li>Thailand National Youth Games #36 (Surat thani Games) — Men’s Team</li>
-            <li>Thailand National Youth Games #37 (Phatthalung Games) — Men’s Team (Competed after Southern Regional qualification)</li> 
+            <li>Thailand National Youth Games #37 (Phatthalung Games) — Men’s Team (Competed after Southern Regional qualification)</li>
             <li>Thailand National Youth Games #38 (Nakhon Sawan Games) — Men’s Team (Competed after Southern Regional qualification)</li>
             <li>Thailand National Games #48 (Phuket Games) — Men’s Team (Not qualified Southern Regional Tournament)</li>
             <li>Thailand National Games #49 (Trang Games) — Mixed Pair (Not qualified via Southern Regional Tournament)</li>
@@ -400,7 +403,7 @@ function GitHubIcon({ className = "w-5 h-5" }: { className?: string }) {
 
 /* =============================
    Dev Smoke Tests (runtime)
-   These lightweight checks run only in the browser (non‑production)
+   These lightweight checks run only in the browser (non-production)
    ============================= */
 function runSmokeTests() {
   try {
