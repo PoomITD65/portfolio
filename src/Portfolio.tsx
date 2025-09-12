@@ -77,7 +77,7 @@ export default function Portfolio() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href="#projects" className="px-4 py-2 rounded-2xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">See Projects</a>
                 <a href="#contact" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Get In Touch</a>
-                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`} className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Download Résumé</a>
+                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`}className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Download Résumé</a>
                 <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100 inline-flex items-center gap-2">
                   <GitHubIcon className="w-4 h-4" />
                   GitHub
