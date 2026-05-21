@@ -197,7 +197,7 @@ export default function Portfolio() {
                 <h3 className="text-lg font-semibold">Progressive Network Consult Co., Ltd.</h3>
                 <p className="text-sm font-medium text-neutral-600 mt-0.5">Programmer</p>
               </div>
-              <span className="text-sm text-neutral-500">Dec 2025 – Jun 2027</span>
+              <span className="text-sm text-neutral-500">Dec 2025 – Present</span>
             </div>
             <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
               <li>Developed and maintained mobile apps for corporate clients</li>
