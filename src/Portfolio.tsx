@@ -1,23 +1,226 @@
-import { useMemo, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
-// Single-file React portfolio (TailwindCSS)
-// Paste into a Next.js/Vite project with Tailwind enabled.
-
-const SECTIONS = [
-  { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "education", label: "Education" },
-  { id: "sports", label: "Sports" },
-  { id: "contact", label: "Contact" },
-];
+type Lang = "en" | "th";
 
 const GITHUB_URL = "https://github.com/PoomITD65";
 const CONTACT_EMAIL = "pumipath.muangthong@gmail.com";
 
+const T = {
+  en: {
+    nav: { about: "About", skills: "Skills", projects: "Projects", experience: "Experience", education: "Education", sports: "Sports", contact: "Contact" },
+    contactBtn: "Contact",
+    available: "Available for projects",
+    heroTitle: "Junior Programmer",
+    heroBio: "As a Junior Programmer, I focus on building web applications and gaining hands-on experience in real projects while strengthening skills such as teamwork, adaptability, and time management. For my graduation project, I applied machine learning to predict air-quality, demonstrating how academic research can be transformed into practical solutions.",
+    seeProjects: "See Projects",
+    getInTouch: "Get In Touch",
+    downloadResume: "Download Résumé",
+    heroLocation: "Nakhon Si Thammarat, Thailand",
+    aboutTitle: "Profile Snapshot",
+    aboutBio: "My professional interests cover web application development, software engineering, and the use of data and machine learning to create practical solutions. I also value soft skills such as teamwork, adaptability, curiosity, and time management, which help me grow as a Junior Programmer and contribute effectively to diverse projects.",
+    factLanguages: "Languages",
+    factLangItems: ["Thai (Native)", "English (Intermediate)"],
+    factProgramming: "Programming",
+    factProgItems: ["Python", "JavaScript", "Dart", "PHP"],
+    factTechnical: "Technical",
+    factTechItems: ["Machine Learning", "Web Development", "Vital Sign Analysis", "Signal Processing"],
+    factSoftSkills: "Soft Skills",
+    factSoftItems: ["Teamwork", "Time Management", "Adaptability", "Curiosity"],
+    skillsTitle: "Skills",
+    frontend: "Frontend",
+    backend: "Backend",
+    mobileIot: "Mobile & IoT",
+    dataML: "Data & ML",
+    projectsTitle: "Selected Projects & Research",
+    published: "Published",
+    proj1Title: "Ultrafine Particles (PM0.1) Prediction",
+    proj1Time: "2024 – 2025",
+    proj1Pub: { journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)", badge: "Scopus Q1" },
+    proj1Bullets: [
+      "Co-authored: \"Ultrafine particle concentration modeling from incense burning: An interpretable machine learning approach using ambient indoor conditions\"",
+      "Built ML models to predict PM0.1 from meteorological features",
+      "Simulated shrines: collected dust, temperature, wind speed, humidity",
+      "Designed a realtime web dashboard",
+    ],
+    proj2Title: "SpendLog – Cost Management App",
+    proj2Time: "2024",
+    proj2Bullets: [
+      "Flutter mobile app with Firebase backend",
+      "Tracks expenses and categories",
+      "Clean, simple UI for daily logging",
+    ],
+    proj3Title: "Panic Disorder Risk Prediction",
+    proj3Time: "2023",
+    proj3Bullets: [
+      "Explored ML approaches to estimate panic-disorder risk",
+      "Prepared datasets and evaluation pipeline",
+    ],
+    proj4Title: "Lottery Result Management (NoSQL Web App)",
+    proj4Time: "2023",
+    proj4Bullets: [
+      "HTML/CSS/JS frontend with NoSQL backend",
+      "CRUD flows for tickets and results",
+    ],
+    expTitle: "Work Experience",
+    exp1Role: "Programmer",
+    exp1Time: "Dec 2025 – Present",
+    exp1Bullets: ["Developed and maintained mobile apps for corporate clients", "Collaborated with design and backend teams to integrate APIs", "Tested and improved user experience across various devices"],
+    exp2Role: "Co-operative Student",
+    exp2Time: "Apr 2025 – Nov 2025",
+    exp2Bullets: ["Developed and maintained mobile apps for corporate clients", "Collaborated with design and backend teams to integrate APIs", "Tested and improved user experience across various devices"],
+    exp3Company: "S.P.A Computer Co., Ltd.",
+    exp3Role: "Internship",
+    exp3Time: "Nov 2021 – Mar 2022",
+    exp3Bullets: ["Customer service & sales", "Computer repair & assembly", "Inventory management"],
+    eduTitle: "Education",
+    edu1School: "Walailak University",
+    edu1Program: "B.Sc., Information Technology & Digital Innovation",
+    edu1Years: "2022 – 2025",
+    edu2School: "Nakhon Si Thammarat Vocational College",
+    edu2Program: "Cert. Voc. Ed., Information Technology",
+    edu2Years: "2020 – 2022",
+    sportsTitle: "Go ⚫️⚪️",
+    highlights: "Highlights",
+    highlightItems: ["Thailand National Games #49 — Trang Games", "Chanthaburi Games (National Games #49)", "Thailand National Youth Games #38 — Nakhon Sawan"],
+    medals: "Medals",
+    medalItems: ["🥈 Silver — Team (Men)", "🥉 Bronze — Pair Mixed"],
+    achievements: "Achievements",
+    achievementItems: [
+      "Thailand National Youth Games #36 (Surat Thani Games) — Men's Team",
+      "Thailand National Youth Games #37 (Phatthalung Games) — Men's Team (Competed after Southern Regional qualification)",
+      "Thailand National Youth Games #38 (Nakhon Sawan Games) — Men's Team (Competed after Southern Regional qualification)",
+      "Thailand National Games #48 (Phuket Games) — Men's Team (Not qualified Southern Regional Tournament)",
+      "Thailand National Games #49 (Trang Games) — Mixed Pair (Not qualified via Southern Regional Tournament)",
+      "Thailand National Games #49 (Trang Games) — Men's Team (Qualified via Southern Regional Tournament)",
+      "Thailand National Games #49 (Chanthaburi Games) — Men's Team (Competed after Southern Regional qualification)",
+    ],
+    refTitle: "References",
+    ref1Dept: "Department of Digital Technology in Medicine, Walailak University",
+    ref2Dept: "Department of Digital Technology in Medicine, Walailak University",
+    contactTitle: "Contact",
+    contactEmail: "Email",
+    contactPhone: "Phone",
+    contactGitHub: "GitHub",
+    contactLocation: "Location",
+    contactLocationValue: "Mueang, Nakhon Si Thammarat, Thailand",
+    footerCopy: `© ${new Date().getFullYear()} Pumipath Muangthong. All rights reserved.`,
+    backToTop: "Back to top ↑",
+  },
+  th: {
+    nav: { about: "เกี่ยวกับ", skills: "ทักษะ", projects: "ผลงาน", experience: "ประสบการณ์", education: "การศึกษา", sports: "กีฬา", contact: "ติดต่อ" },
+    contactBtn: "ติดต่อ",
+    available: "พร้อมรับงาน",
+    heroTitle: "โปรแกรมเมอร์ระดับจูเนียร์",
+    heroBio: "ในฐานะโปรแกรมเมอร์ระดับจูเนียร์ ฉันมุ่งเน้นการพัฒนาเว็บแอปพลิเคชันและสั่งสมประสบการณ์จากโปรเจคจริง พร้อมพัฒนาทักษะด้านการทำงานเป็นทีม การปรับตัว และการบริหารเวลา สำหรับโปรเจคจบการศึกษา ฉันนำ Machine Learning มาประยุกต์ใช้พยากรณ์คุณภาพอากาศ แสดงให้เห็นว่างานวิจัยเชิงวิชาการสามารถแปลงเป็นโซลูชันที่ใช้งานได้จริง",
+    seeProjects: "ดูผลงาน",
+    getInTouch: "ติดต่อฉัน",
+    downloadResume: "ดาวน์โหลดเรซูเม่",
+    heroLocation: "นครศรีธรรมราช, ไทย",
+    aboutTitle: "ภาพรวมโปรไฟล์",
+    aboutBio: "ความสนใจในวิชาชีพของฉันครอบคลุมการพัฒนาเว็บแอปพลิเคชัน วิศวกรรมซอฟต์แวร์ และการนำข้อมูลรวมถึง Machine Learning มาสร้างโซลูชันที่ใช้งานได้จริง ฉันยังให้ความสำคัญกับทักษะซอฟต์สกิล เช่น การทำงานเป็นทีม การปรับตัว ความอยากรู้อยากเห็น และการบริหารเวลา ซึ่งช่วยให้เติบโตในฐานะโปรแกรมเมอร์และมีส่วนร่วมในโปรเจคที่หลากหลายได้อย่างมีประสิทธิภาพ",
+    factLanguages: "ภาษา",
+    factLangItems: ["ไทย (ภาษาแม่)", "อังกฤษ (ระดับกลาง)"],
+    factProgramming: "การเขียนโปรแกรม",
+    factProgItems: ["Python", "JavaScript", "Dart", "PHP"],
+    factTechnical: "ทักษะเทคนิค",
+    factTechItems: ["Machine Learning", "การพัฒนาเว็บ", "การวิเคราะห์สัญญาณชีพ", "การประมวลผลสัญญาณ"],
+    factSoftSkills: "ทักษะทั่วไป",
+    factSoftItems: ["การทำงานเป็นทีม", "การบริหารเวลา", "การปรับตัว", "ความอยากรู้อยากเห็น"],
+    skillsTitle: "ทักษะ",
+    frontend: "ฟรอนต์เอนด์",
+    backend: "แบ็กเอนด์",
+    mobileIot: "มือถือและ IoT",
+    dataML: "ข้อมูลและ ML",
+    projectsTitle: "โปรเจคและงานวิจัยที่คัดสรร",
+    published: "ตีพิมพ์แล้ว",
+    proj1Title: "การพยากรณ์อนุภาคขนาดเล็กมาก (PM0.1)",
+    proj1Time: "2567 – 2568",
+    proj1Pub: { journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)", badge: "Scopus Q1" },
+    proj1Bullets: [
+      "ร่วมเขียนบทความ: \"การสร้างแบบจำลองความเข้มข้นของอนุภาคขนาดเล็กมากจากการเผาธูป: แนวทาง Machine Learning ที่ตีความได้โดยใช้สภาวะอากาศภายในอาคาร\"",
+      "สร้างโมเดล ML เพื่อพยากรณ์ PM0.1 จากลักษณะทางอุตุนิยมวิทยา",
+      "จำลองศาลเจ้า: เก็บข้อมูลฝุ่น อุณหภูมิ ความเร็วลม และความชื้น",
+      "ออกแบบ Dashboard แสดงผลแบบเรียลไทม์",
+    ],
+    proj2Title: "SpendLog – แอปจัดการค่าใช้จ่าย",
+    proj2Time: "2567",
+    proj2Bullets: [
+      "แอปมือถือ Flutter พร้อม Firebase backend",
+      "ติดตามรายจ่ายและหมวดหมู่",
+      "UI เรียบง่ายสำหรับบันทึกประจำวัน",
+    ],
+    proj3Title: "การพยากรณ์ความเสี่ยงโรคแพนิค",
+    proj3Time: "2566",
+    proj3Bullets: [
+      "สำรวจแนวทาง ML เพื่อประเมินความเสี่ยงโรคแพนิค",
+      "เตรียม Dataset และ Pipeline การประเมินผล",
+    ],
+    proj4Title: "ระบบจัดการผลสลากกินแบ่ง (NoSQL Web App)",
+    proj4Time: "2566",
+    proj4Bullets: [
+      "ฟรอนต์เอนด์ HTML/CSS/JS พร้อม NoSQL backend",
+      "ระบบ CRUD สำหรับสลากและผลรางวัล",
+    ],
+    expTitle: "ประสบการณ์การทำงาน",
+    exp1Role: "โปรแกรมเมอร์",
+    exp1Time: "ธ.ค. 2568 – ปัจจุบัน",
+    exp1Bullets: ["พัฒนาและดูแลแอปมือถือสำหรับลูกค้าองค์กร", "ร่วมมือกับทีมดีไซน์และ Backend เพื่อ Integrate API", "ทดสอบและปรับปรุง UX บนอุปกรณ์ต่างๆ"],
+    exp2Role: "นักศึกษาสหกิจศึกษา",
+    exp2Time: "เม.ย. 2568 – พ.ย. 2568",
+    exp2Bullets: ["พัฒนาและดูแลแอปมือถือสำหรับลูกค้าองค์กร", "ร่วมมือกับทีมดีไซน์และ Backend เพื่อ Integrate API", "ทดสอบและปรับปรุง UX บนอุปกรณ์ต่างๆ"],
+    exp3Company: "บริษัท ส.พ.อ. คอมพิวเตอร์ จำกัด",
+    exp3Role: "นักศึกษาฝึกงาน",
+    exp3Time: "พ.ย. 2564 – มี.ค. 2565",
+    exp3Bullets: ["บริการลูกค้าและงานขาย", "ซ่อมและประกอบคอมพิวเตอร์", "จัดการสินค้าคงคลัง"],
+    eduTitle: "การศึกษา",
+    edu1School: "มหาวิทยาลัยวลัยลักษณ์",
+    edu1Program: "วท.บ. เทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล",
+    edu1Years: "2565 – 2568",
+    edu2School: "วิทยาลัยเทคนิคนครศรีธรรมราช",
+    edu2Program: "ปวส. เทคโนโลยีสารสนเทศ",
+    edu2Years: "2563 – 2565",
+    sportsTitle: "โกะ ⚫️⚪️",
+    highlights: "ไฮไลต์",
+    highlightItems: ["กีฬาแห่งชาติ ครั้งที่ 49 — ตรังเกมส์", "กีฬาแห่งชาติ ครั้งที่ 49 — จันทบุรีเกมส์", "กีฬาเยาวชนแห่งชาติ ครั้งที่ 38 — นครสวรรค์"],
+    medals: "เหรียญรางวัล",
+    medalItems: ["🥈 เหรียญเงิน — ทีมชาย", "🥉 เหรียญทองแดง — คู่ผสม"],
+    achievements: "ผลงาน",
+    achievementItems: [
+      "กีฬาเยาวชนแห่งชาติ ครั้งที่ 36 (สุราษฎร์ธานีเกมส์) — ทีมชาย",
+      "กีฬาเยาวชนแห่งชาติ ครั้งที่ 37 (พัทลุงเกมส์) — ทีมชาย (ผ่านการคัดเลือกภาคใต้)",
+      "กีฬาเยาวชนแห่งชาติ ครั้งที่ 38 (นครสวรรค์เกมส์) — ทีมชาย (ผ่านการคัดเลือกภาคใต้)",
+      "กีฬาแห่งชาติ ครั้งที่ 48 (ภูเก็ตเกมส์) — ทีมชาย (ไม่ผ่านการคัดเลือกภาคใต้)",
+      "กีฬาแห่งชาติ ครั้งที่ 49 (ตรังเกมส์) — คู่ผสม (ไม่ผ่านการคัดเลือกภาคใต้)",
+      "กีฬาแห่งชาติ ครั้งที่ 49 (ตรังเกมส์) — ทีมชาย (ผ่านการคัดเลือกภาคใต้)",
+      "กีฬาแห่งชาติ ครั้งที่ 49 (จันทบุรีเกมส์) — ทีมชาย (ผ่านการคัดเลือกภาคใต้)",
+    ],
+    refTitle: "ผู้ให้การรับรอง",
+    ref1Dept: "ภาควิชาเทคโนโลยีดิจิทัลทางการแพทย์ มหาวิทยาลัยวลัยลักษณ์",
+    ref2Dept: "ภาควิชาเทคโนโลยีดิจิทัลทางการแพทย์ มหาวิทยาลัยวลัยลักษณ์",
+    contactTitle: "ติดต่อ",
+    contactEmail: "อีเมล",
+    contactPhone: "โทรศัพท์",
+    contactGitHub: "GitHub",
+    contactLocation: "ที่อยู่",
+    contactLocationValue: "เมือง, นครศรีธรรมราช, ไทย",
+    footerCopy: `© ${new Date().getFullYear()} ภูมิพัทม์ น้วงกอง. สงวนลิขสิทธิ์`,
+    backToTop: "กลับด้านบน ↑",
+  },
+} as const;
+
 export default function Portfolio() {
-  const nav = useMemo(() => SECTIONS, []);
+  const [lang, setLang] = useState<Lang>("en");
+  const tr = T[lang];
+
+  const nav = [
+    { id: "about", label: tr.nav.about },
+    { id: "skills", label: tr.nav.skills },
+    { id: "projects", label: tr.nav.projects },
+    { id: "experience", label: tr.nav.experience },
+    { id: "education", label: tr.nav.education },
+    { id: "sports", label: tr.nav.sports },
+    { id: "contact", label: tr.nav.contact },
+  ];
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 selection:bg-neutral-900 selection:text-white">
@@ -26,31 +229,25 @@ export default function Portfolio() {
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           <a href="#home" className="font-black tracking-tight text-lg md:text-xl">PUMIPATH MUANGTHONG</a>
           <nav className="hidden md:flex items-center gap-6">
-            {nav.map((s: { id: string; label: string }) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="text-sm font-medium text-neutral-600 hover:text-neutral-900"
-              >
+            {nav.map((s) => (
+              <a key={s.id} href={`#${s.id}`} className="text-sm font-medium text-neutral-600 hover:text-neutral-900">
                 {s.label}
               </a>
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold border border-neutral-300 rounded-xl px-3 py-1.5 hover:bg-neutral-100"
+            <button
+              onClick={() => setLang(lang === "en" ? "th" : "en")}
+              className="text-xs font-bold border border-neutral-300 rounded-xl px-2.5 py-1.5 hover:bg-neutral-100 transition-colors"
             >
+              {lang === "en" ? "🇹🇭 TH" : "🇬🇧 EN"}
+            </button>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold border border-neutral-300 rounded-xl px-3 py-1.5 hover:bg-neutral-100">
               <GitHubIcon className="w-4 h-4" />
               <span className="hidden sm:inline">GitHub</span>
             </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center text-sm font-semibold border border-neutral-900 text-white bg-neutral-900 rounded-xl px-3 py-1.5 hover:bg-neutral-800"
-            >
-              Contact
+            <a href="#contact" className="inline-flex items-center text-sm font-semibold border border-neutral-900 text-white bg-neutral-900 rounded-xl px-3 py-1.5 hover:bg-neutral-800">
+              {tr.contactBtn}
             </a>
           </div>
         </div>
@@ -58,40 +255,25 @@ export default function Portfolio() {
 
       {/* Hero */}
       <section id="home" className="relative">
-        <div
-          className="absolute inset-0 bg-[radial-gradient(60%_60%_at_10%_10%,#f5f5f4,transparent),radial-gradient(60%_60%_at_90%_30%,#e5e7eb,transparent)]"
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_10%_10%,#f5f5f4,transparent),radial-gradient(60%_60%_at_90%_30%,#e5e7eb,transparent)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-4 pt-14 pb-10 md:pb-16">
           <div className="grid md:grid-cols-3 gap-8 items-center">
-            {/* ภาพ: มือถืออยู่บน, เดสก์ท็อปขวา */}
             <div className="order-1 md:order-2 md:justify-self-end">
-              <img
-                src={`${import.meta.env.BASE_URL}poom.png`}
-                alt="Pumipath Muangthong"
-                className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm"
-              />
-              <div className="mt-4 text-xs text-neutral-500">Nakhon Si Thammarat, Thailand</div>
+              <img src={`${import.meta.env.BASE_URL}poom.png`} alt="Pumipath Muangthong" className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm" />
+              <div className="mt-4 text-xs text-neutral-500">{tr.heroLocation}</div>
             </div>
-
-            {/* ข้อความ: มือถืออยู่ล่าง, เดสก์ท็อปซ้าย และกิน 2 คอลัมน์ */}
             <div className="md:col-span-2 order-2 md:order-1">
               <p className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-600 shadow-sm">
-                <span className="inline-block h-2 w-2 rounded-full bg-neutral-900" /> Available for projects
+                <span className="inline-block h-2 w-2 rounded-full bg-neutral-900" /> {tr.available}
               </p>
-              <h1 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
-                Junior Programmer
-              </h1>
-              <p className="mt-4 text-neutral-600 text-base md:text-lg leading-relaxed">
-                As a Developer Intern, I focus on building web applications and gaining hands-on experience in real projects while strengthening skills such as teamwork, adaptability, and time management. For my graduation project, I applied machine learning to predict air-quality, demonstrating how academic research can be transformed into practical solutions.
-              </p>
+              <h1 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">{tr.heroTitle}</h1>
+              <p className="mt-4 text-neutral-600 text-base md:text-lg leading-relaxed">{tr.heroBio}</p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#projects" className="px-4 py-2 rounded-2xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">See Projects</a>
-                <a href="#contact" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Get In Touch</a>
-                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`} className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">Download Résumé</a>
+                <a href="#projects" className="px-4 py-2 rounded-2xl bg-neutral-900 text-white text-sm font-semibold hover:bg-neutral-800">{tr.seeProjects}</a>
+                <a href="#contact" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">{tr.getInTouch}</a>
+                <a href={`${import.meta.env.BASE_URL}Resume_Pumipath%20Muangthong.pdf`} className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100">{tr.downloadResume}</a>
                 <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="px-4 py-2 rounded-2xl border border-neutral-300 text-sm font-semibold hover:bg-neutral-100 inline-flex items-center gap-2">
-                  <GitHubIcon className="w-4 h-4" />
-                  GitHub
+                  <GitHubIcon className="w-4 h-4" /> GitHub
                 </a>
               </div>
             </div>
@@ -99,224 +281,109 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Profile Snapshot */}
-      <SiteSection id="about" title="Profile Snapshot">
-        <p className="mt-3 text-neutral-700 max-w-3xl">
-          My professional interests cover web application development, software engineering, and the use of data and machine learning to create practical solutions. I also value soft skills such as teamwork, adaptability, curiosity, and time management, which help me grow as a Developer Intern and contribute effectively to diverse projects
-        </p>
+      {/* About */}
+      <SiteSection id="about" title={tr.aboutTitle}>
+        <p className="mt-3 text-neutral-700 max-w-3xl">{tr.aboutBio}</p>
         <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Fact title="Languages" items={["Thai (Native)", "English (Intermediate)"]} />
-          <Fact title="Programming" items={["Python", "JavaScript", "Dart", "PHP"]} />
-          <Fact title="Technical" items={["Machine Learning", "Web Development", "Vital Sign Analysis", "Signal Processing"]} />
-          <Fact title="Soft Skills" items={["Teamwork", "Time Management", "Adaptability", "Curiosity"]} />
+          <Fact title={tr.factLanguages} items={[...tr.factLangItems]} />
+          <Fact title={tr.factProgramming} items={[...tr.factProgItems]} />
+          <Fact title={tr.factTechnical} items={[...tr.factTechItems]} />
+          <Fact title={tr.factSoftSkills} items={[...tr.factSoftItems]} />
         </div>
       </SiteSection>
 
       {/* Skills */}
-      <SiteSection id="skills" title="Skills">
+      <SiteSection id="skills" title={tr.skillsTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <Card title="Frontend">
-            <Tag>Angular</Tag>
-            <Tag>TypeScript</Tag>
-            <Tag>React (basics)</Tag>
-            <Tag>TailwindCSS</Tag>
-            <Tag>HTML/CSS</Tag>
+          <Card title={tr.frontend}>
+            <Tag>Angular</Tag><Tag>TypeScript</Tag><Tag>React (basics)</Tag><Tag>TailwindCSS</Tag><Tag>HTML/CSS</Tag>
           </Card>
-          <Card title="Backend">
-            <Tag>Node.js</Tag>
-            <Tag>Python (FastAPI)</Tag>
-            <Tag>PHP</Tag>
-            <Tag>REST APIs</Tag>
+          <Card title={tr.backend}>
+            <Tag>Node.js</Tag><Tag>Python (FastAPI)</Tag><Tag>PHP</Tag><Tag>REST APIs</Tag>
           </Card>
-          <Card title="Mobile & IoT">
-            <Tag>Flutter (Dart)</Tag>
-            <Tag>Firebase</Tag>
-            <Tag>ESP32 / sensors</Tag>
+          <Card title={tr.mobileIot}>
+            <Tag>Flutter (Dart)</Tag><Tag>Firebase</Tag><Tag>ESP32 / sensors</Tag>
           </Card>
-          <Card title="Data & ML">
-            <Tag>scikit-learn</Tag>
-            <Tag>Pandas</Tag>
-            <Tag>Data Collection</Tag>
-            <Tag>Model Evaluation</Tag>
+          <Card title={tr.dataML}>
+            <Tag>scikit-learn</Tag><Tag>Pandas</Tag><Tag>Data Collection</Tag><Tag>Model Evaluation</Tag>
           </Card>
         </div>
       </SiteSection>
 
-      {/* Projects & Research */}
-      <SiteSection id="projects" title="Selected Projects & Research">
+      {/* Projects */}
+      <SiteSection id="projects" title={tr.projectsTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           <ProjectCard
-            title="Ultrafine Particles (PM0.1) Prediction"
-            time="2024 – 2025"
-            publication={{
-              journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)",
-              badge: "Scopus Q1",
-            }}
+            title={tr.proj1Title}
+            time={tr.proj1Time}
+            publication={{ ...tr.proj1Pub, publishedLabel: tr.published }}
             image={`${import.meta.env.BASE_URL}publication-pm01.jpg`}
-            bullets={[
-              "Co-authored: \"Ultrafine particle concentration modeling from incense burning: An interpretable machine learning approach using ambient indoor conditions\"",
-              "Built ML models to predict PM0.1 from meteorological features",
-              "Simulated shrines: collected dust, temperature, wind speed, humidity",
-              "Designed a realtime web dashboard",
-            ]}
+            bullets={[...tr.proj1Bullets]}
           />
-          <ProjectCard
-            title="SpendLog – Cost Management App"
-            time="2024"
-            bullets={[
-              "Flutter mobile app with Firebase backend",
-              "Tracks expenses and categories",
-              "Clean, simple UI for daily logging",
-            ]}
-          />
-          <ProjectCard
-            title="Panic Disorder Risk Prediction"
-            time="2023"
-            bullets={[
-              "Explored ML approaches to estimate panic-disorder risk",
-              "Prepared datasets and evaluation pipeline",
-            ]}
-          />
-          <ProjectCard
-            title="Lottery Result Management (NoSQL Web App)"
-            time="2023"
-            bullets={[
-              "HTML/CSS/JS frontend with NoSQL backend",
-              "CRUD flows for tickets and results",
-            ]}
-          />
+          <ProjectCard title={tr.proj2Title} time={tr.proj2Time} bullets={[...tr.proj2Bullets]} />
+          <ProjectCard title={tr.proj3Title} time={tr.proj3Time} bullets={[...tr.proj3Bullets]} />
+          <ProjectCard title={tr.proj4Title} time={tr.proj4Time} bullets={[...tr.proj4Bullets]} />
         </div>
       </SiteSection>
 
       {/* Experience */}
-      <SiteSection id="experience" title="Work Experience">
+      <SiteSection id="experience" title={tr.expTitle}>
         <div className="mt-6 space-y-4">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div>
-                <h3 className="text-lg font-semibold">Progressive Network Consult Co., Ltd.</h3>
-                <p className="text-sm font-medium text-neutral-600 mt-0.5">Programmer</p>
-              </div>
-              <span className="text-sm text-neutral-500">Dec 2025 – Present</span>
-            </div>
-            <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-              <li>Developed and maintained mobile apps for corporate clients</li>
-              <li>Collaborated with design and backend teams to integrate APIs</li>
-              <li>Tested and improved user experience across various devices</li>
-            </ul>
-          </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div>
-                <h3 className="text-lg font-semibold">Progressive Network Consult Co., Ltd.</h3>
-                <p className="text-sm font-medium text-neutral-600 mt-0.5">Co-operative Student</p>
-              </div>
-              <span className="text-sm text-neutral-500">Apr 2025 – Nov 2025</span>
-            </div>
-            <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-              <li>Developed and maintained mobile apps for corporate clients</li>
-              <li>Collaborated with design and backend teams to integrate APIs</li>
-              <li>Tested and improved user experience across various devices</li>
-            </ul>
-          </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div>
-                <h3 className="text-lg font-semibold">S.P.A Computer Co., Ltd.</h3>
-                <p className="text-sm font-medium text-neutral-600 mt-0.5">Internship</p>
-              </div>
-              <span className="text-sm text-neutral-500">Nov 2021 – Mar 2022</span>
-            </div>
-            <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-              <li>Customer service & sales</li>
-              <li>Computer repair & assembly</li>
-              <li>Inventory management</li>
-            </ul>
-          </div>
+          <ExperienceCard company="Progressive Network Consult Co., Ltd." role={tr.exp1Role} time={tr.exp1Time} bullets={[...tr.exp1Bullets]} />
+          <ExperienceCard company="Progressive Network Consult Co., Ltd." role={tr.exp2Role} time={tr.exp2Time} bullets={[...tr.exp2Bullets]} />
+          <ExperienceCard company={tr.exp3Company} role={tr.exp3Role} time={tr.exp3Time} bullets={[...tr.exp3Bullets]} />
         </div>
       </SiteSection>
 
       {/* Education */}
-      <SiteSection id="education" title="Education">
+      <SiteSection id="education" title={tr.eduTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <EduCard
-            school="Walailak University"
-            program="B.Sc., Information Technology & Digital Innovation"
-            years="2022 – 2025"
-            gpx="2.95"
-          />
-          <EduCard
-            school="Nakhon Si Thammarat Vocational College"
-            program="Cert. Voc. Ed., Information Technology"
-            years="2020 – 2022"
-            gpx="3.25"
-          />
+          <EduCard school={tr.edu1School} program={tr.edu1Program} years={tr.edu1Years} gpx="2.95" />
+          <EduCard school={tr.edu2School} program={tr.edu2Program} years={tr.edu2Years} gpx="3.25" />
         </div>
       </SiteSection>
 
       {/* Sports */}
-      <SiteSection id="sports" title="Go ⚫️⚪️">
+      <SiteSection id="sports" title={tr.sportsTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <Card title="Highlights">
-            <Tag>Thailand National Games #49 — Trang Games</Tag>
-            <Tag>Chanthaburi Games (National Games #49)</Tag>
-            <Tag>Thailand National Youth Games #38 — Nakhon Sawan</Tag>
+          <Card title={tr.highlights}>
+            {tr.highlightItems.map((item, i) => <Tag key={i}>{item}</Tag>)}
           </Card>
-          <Card title="Medals">
-            <Tag>🥈 Silver — Team (Men)</Tag>
-            <Tag>🥉 Bronze — Pair Mixed</Tag>
+          <Card title={tr.medals}>
+            {tr.medalItems.map((item, i) => <Tag key={i}>{item}</Tag>)}
           </Card>
         </div>
         <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-          <h3 className="font-semibold text-neutral-900">Achievements</h3>
+          <h3 className="font-semibold text-neutral-900">{tr.achievements}</h3>
           <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-            <li>Thailand National Youth Games #36 (Surat thani Games) — Men’s Team</li>
-            <li>Thailand National Youth Games #37 (Phatthalung Games) — Men’s Team (Competed after Southern Regional qualification)</li>
-            <li>Thailand National Youth Games #38 (Nakhon Sawan Games) — Men’s Team (Competed after Southern Regional qualification)</li>
-            <li>Thailand National Games #48 (Phuket Games) — Men’s Team (Not qualified Southern Regional Tournament)</li>
-            <li>Thailand National Games #49 (Trang Games) — Mixed Pair (Not qualified via Southern Regional Tournament)</li>
-            <li>Thailand National Games #49 (Trang Games) — Men’s Team (Qualified via Southern Regional Tournament)</li>
-            <li>Thailand National Games #49 (Chanthaburi Games) — Men’s Team (Competed after Southern Regional qualification)</li>
+            {tr.achievementItems.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
-          <p className="mt-3 text-xs text-neutral-500">* You may add medal photos or athlete ID images here, or link to an external album.</p>
         </div>
       </SiteSection>
 
       {/* References */}
-      <SiteSection title="References">
+      <SiteSection title={tr.refTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <RefCard
-            name="Asst. Prof. Dr. Bukhoree Sahoh"
-            dept="Department of Digital Technology in Medicine, Walailak University"
-            email="bukhoree.sa@wu.ac.th"
-            phone="(66) 75 672 2067"
-          />
-          <RefCard
-            name="Dr. Theerat Saichoo"
-            dept="Department of Digital Technology in Medicine, Walailak University"
-            email="theerat.sa@mail.wu.ac.th"
-            phone="(66) 75 672 290"
-          />
+          <RefCard name="Asst. Prof. Dr. Bukhoree Sahoh" dept={tr.ref1Dept} email="bukhoree.sa@wu.ac.th" phone="(66) 75 672 2067" />
+          <RefCard name="Dr. Theerat Saichoo" dept={tr.ref2Dept} email="theerat.sa@mail.wu.ac.th" phone="(66) 75 672 290" />
         </div>
       </SiteSection>
 
       {/* Contact */}
-      <SiteSection id="contact" title="Contact">
+      <SiteSection id="contact" title={tr.contactTitle}>
         <div className="mt-6 grid md:grid-cols-3 gap-6">
-          <ContactCard label="Email" value={CONTACT_EMAIL} href={`mailto:${CONTACT_EMAIL}`} />
-          <ContactCard label="Phone" value="066 012 0690" href="tel:+66660120690" />
-          <ContactCard label="GitHub" value={GITHUB_URL.replace("https://", "")} href={GITHUB_URL} />
-          <ContactCard label="Location" value="Mueang, Nakhon Si Thammarat, Thailand" />
+          <ContactCard label={tr.contactEmail} value={CONTACT_EMAIL} href={`mailto:${CONTACT_EMAIL}`} />
+          <ContactCard label={tr.contactPhone} value="066 012 0690" href="tel:+66660120690" />
+          <ContactCard label={tr.contactGitHub} value={GITHUB_URL.replace("https://", "")} href={GITHUB_URL} />
+          <ContactCard label={tr.contactLocation} value={tr.contactLocationValue} />
         </div>
       </SiteSection>
 
       {/* Footer */}
       <footer className="border-t border-neutral-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-neutral-500 flex flex-wrap items-center justify-between gap-2">
-          <p>© {new Date().getFullYear()} Pumipath Muangthong. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="#home" className="hover:text-neutral-800">Back to top ↑</a>
-          </div>
+          <p>{tr.footerCopy}</p>
+          <a href="#home" className="hover:text-neutral-800">{tr.backToTop}</a>
         </div>
       </footer>
     </div>
@@ -326,12 +393,10 @@ export default function Portfolio() {
 function SiteSection({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
   return (
     <section id={id} className="mx-auto max-w-6xl px-4 py-12">
-      <div className="flex items-end justify-between">
-        <h2 className="text-2xl md:text-3xl font-bold">
-          {title}
-          <span className="block h-1 w-12 mt-2 bg-neutral-900 rounded-full" />
-        </h2>
-      </div>
+      <h2 className="text-2xl md:text-3xl font-bold">
+        {title}
+        <span className="block h-1 w-12 mt-2 bg-neutral-900 rounded-full" />
+      </h2>
       {children}
     </section>
   );
@@ -342,9 +407,7 @@ function Fact({ title, items }: { title: string; items: string[] }) {
     <div className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
       <div className="text-xs uppercase tracking-wide text-neutral-500 font-semibold">{title}</div>
       <ul className="mt-2 space-y-1 text-sm text-neutral-700">
-        {items.map((it, i) => (
-          <li key={i}>{it}</li>
-        ))}
+        {items.map((it, i) => <li key={i}>{it}</li>)}
       </ul>
     </div>
   );
@@ -367,7 +430,13 @@ function Tag({ children }: { children: ReactNode }) {
   );
 }
 
-function ProjectCard({ title, time, bullets, publication, image }: { title: string; time: string; bullets: string[]; publication?: { journal: string; badge: string }; image?: string }) {
+function ProjectCard({ title, time, bullets, publication, image }: {
+  title: string;
+  time: string;
+  bullets: string[];
+  publication?: { journal: string; badge: string; publishedLabel: string };
+  image?: string;
+}) {
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-baseline justify-between gap-2 flex-wrap">
@@ -377,22 +446,31 @@ function ProjectCard({ title, time, bullets, publication, image }: { title: stri
       {publication && (
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
-            📄 Published · {publication.badge}
+            📄 {publication.publishedLabel} · {publication.badge}
           </span>
           <span className="text-xs text-neutral-500 italic">{publication.journal}</span>
         </div>
       )}
-      {image && (
-        <img
-          src={image}
-          alt={title}
-          className="mt-4 w-full rounded-xl object-cover border border-neutral-100"
-        />
-      )}
+      {image && <img src={image} alt={title} className="mt-4 w-full rounded-xl object-cover border border-neutral-100" />}
       <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
-        {bullets.map((b, i) => (
-          <li key={i}>{b}</li>
-        ))}
+        {bullets.map((b, i) => <li key={i}>{b}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+function ExperienceCard({ company, role, time, bullets }: { company: string; role: string; time: string; bullets: string[] }) {
+  return (
+    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <div>
+          <h3 className="text-lg font-semibold">{company}</h3>
+          <p className="text-sm font-medium text-neutral-600 mt-0.5">{role}</p>
+        </div>
+        <span className="text-sm text-neutral-500">{time}</span>
+      </div>
+      <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
+        {bullets.map((b, i) => <li key={i}>{b}</li>)}
       </ul>
     </div>
   );
@@ -432,17 +510,8 @@ function ContactCard({ label, value, href }: { label: string; value: string; hre
     </div>
   );
   return href ? (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="block hover:shadow-md hover:-translate-y-0.5 transition-transform"
-    >
-      {inner}
-    </a>
-  ) : (
-    inner
-  );
+    <a href={href} target="_blank" rel="noreferrer" className="block hover:shadow-md hover:-translate-y-0.5 transition-transform">{inner}</a>
+  ) : inner;
 }
 
 function GitHubIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -451,34 +520,4 @@ function GitHubIcon({ className = "w-5 h-5" }: { className?: string }) {
       <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.486 2 12.021c0 4.427 2.865 8.18 6.839 9.504.5.094.683-.218.683-.485 0-.24-.009-.876-.014-1.72-2.782.606-3.369-1.343-3.369-1.343-.455-1.158-1.11-1.468-1.11-1.468-.908-.622.069-.61.069-.61 1.004.071 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.833.091-.648.35-1.089.636-1.34-2.221-.253-4.555-1.114-4.555-4.957 0-1.095.39-1.99 1.03-2.692-.104-.253-.447-1.272.098-2.65 0 0 .84-.27 2.75 1.028A9.533 9.533 0 0 1 12 6.844c.85.004 1.704.115 2.502.337 1.908-1.298 2.747-1.028 2.747-1.028.547 1.378.204 2.397.1 2.65.64.702 1.028 1.597 1.028 2.692 0 3.853-2.337 4.701-4.565 4.949.36.311.68.923.68 1.86 0 1.342-.012 2.424-.012 2.754 0 .269.18.584.69.484A10.02 10.02 0 0 0 22 12.021C22 6.486 17.523 2 12 2Z" />
     </svg>
   );
-}
-
-/* =============================
-   Dev Smoke Tests (runtime)
-   These lightweight checks run only in the browser (non-production)
-   ============================= */
-function runSmokeTests() {
-  try {
-    // 1) ContactCard returns element with/without href
-    const withHref = ContactCard({ label: "Email", value: "a@b", href: "mailto:a@b" });
-    const noHref = ContactCard({ label: "Location", value: "TH" });
-    console.assert(!!withHref && !!noHref, "[Test] ContactCard returns a React element");
-
-    // 2) GitHubIcon returns an svg element
-    const icon = GitHubIcon({});
-    // @ts-ignore - runtime check for React element shape
-    console.assert(icon && (icon.type === 'svg' || icon.props?.viewBox === '0 0 24 24'), "[Test] GitHubIcon appears to be an <svg>");
-
-    // 3) URLs & email sanity
-    console.assert(/^https:\/\/github.com\//.test(GITHUB_URL), "[Test] GitHub URL is valid");
-    console.assert(/@/.test(CONTACT_EMAIL), "[Test] Contact email contains '@'");
-
-    console.info("[Portfolio SmokeTests] All tests passed ✅");
-  } catch (e) {
-    console.error("[Portfolio SmokeTests] Failed ❌", e);
-  }
-}
-
-if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
-  setTimeout(runSmokeTests, 0);
 }
