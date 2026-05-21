@@ -190,11 +190,42 @@ export default function Portfolio() {
 
       {/* Experience */}
       <SiteSection id="experience" title="Work Experience">
-        <div className="mt-6">
+        <div className="mt-6 space-y-4">
           <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="text-lg font-semibold">S.P.A Computer Co., Ltd. — Internship</h3>
-              <span className="text-sm text-neutral-500">5 months</span>
+              <div>
+                <h3 className="text-lg font-semibold">Progressive Network Consult Co., Ltd.</h3>
+                <p className="text-sm font-medium text-neutral-600 mt-0.5">Programmer</p>
+              </div>
+              <span className="text-sm text-neutral-500">Dec 2025 – Jun 2027</span>
+            </div>
+            <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
+              <li>Developed and maintained mobile apps for corporate clients</li>
+              <li>Collaborated with design and backend teams to integrate APIs</li>
+              <li>Tested and improved user experience across various devices</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <h3 className="text-lg font-semibold">Progressive Network Consult Co., Ltd.</h3>
+                <p className="text-sm font-medium text-neutral-600 mt-0.5">Co-operative Student</p>
+              </div>
+              <span className="text-sm text-neutral-500">Apr 2025 – Nov 2025</span>
+            </div>
+            <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
+              <li>Developed and maintained mobile apps for corporate clients</li>
+              <li>Collaborated with design and backend teams to integrate APIs</li>
+              <li>Tested and improved user experience across various devices</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <h3 className="text-lg font-semibold">S.P.A Computer Co., Ltd.</h3>
+                <p className="text-sm font-medium text-neutral-600 mt-0.5">Internship</p>
+              </div>
+              <span className="text-sm text-neutral-500">Nov 2021 – Mar 2022</span>
             </div>
             <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
               <li>Customer service & sales</li>
