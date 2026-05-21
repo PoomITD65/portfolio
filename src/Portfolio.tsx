@@ -80,7 +80,7 @@ export default function Portfolio() {
                 <span className="inline-block h-2 w-2 rounded-full bg-neutral-900" /> Available for projects
               </p>
               <h1 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
-                Developer Intern
+                Junior Programmer
               </h1>
               <p className="mt-4 text-neutral-600 text-base md:text-lg leading-relaxed">
                 As a Developer Intern, I focus on building web applications and gaining hands-on experience in real projects while strengthening skills such as teamwork, adaptability, and time management. For my graduation project, I applied machine learning to predict air-quality, demonstrating how academic research can be transformed into practical solutions.
