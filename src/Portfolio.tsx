@@ -152,6 +152,7 @@ export default function Portfolio() {
               journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)",
               badge: "Scopus Q1",
             }}
+            image={`${import.meta.env.BASE_URL}publication-pm01.jpg`}
             bullets={[
               "Co-authored: \"Ultrafine particle concentration modeling from incense burning: An interpretable machine learning approach using ambient indoor conditions\"",
               "Built ML models to predict PM0.1 from meteorological features",
@@ -335,7 +336,7 @@ function Tag({ children }: { children: ReactNode }) {
   );
 }
 
-function ProjectCard({ title, time, bullets, publication }: { title: string; time: string; bullets: string[]; publication?: { journal: string; badge: string } }) {
+function ProjectCard({ title, time, bullets, publication, image }: { title: string; time: string; bullets: string[]; publication?: { journal: string; badge: string }; image?: string }) {
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-baseline justify-between gap-2 flex-wrap">
@@ -349,6 +350,13 @@ function ProjectCard({ title, time, bullets, publication }: { title: string; tim
           </span>
           <span className="text-xs text-neutral-500 italic">{publication.journal}</span>
         </div>
+      )}
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          className="mt-4 w-full rounded-xl object-cover border border-neutral-100"
+        />
       )}
       <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
         {bullets.map((b, i) => (
