@@ -147,7 +147,7 @@ export default function Portfolio() {
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           <ProjectCard
             title="Ultrafine Particles (PM0.1) Prediction"
-            time="2024 – Present"
+            time="2024 – 2025"
             publication={{
               journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)",
               badge: "Scopus Q1",
