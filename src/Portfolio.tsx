@@ -270,7 +270,7 @@ export default function Portfolio() {
           <div className="grid md:grid-cols-3 gap-8 items-center">
             <div className="order-1 md:order-2 md:justify-self-end">
               <img src={`${import.meta.env.BASE_URL}poom.png`} alt="Pumipath Muangthong" className="w-40 h-40 md:w-48 md:h-48 rounded-3xl object-cover bg-neutral-200 border border-neutral-300 shadow-sm" />
-              <div className="mt-4 text-xs text-neutral-500">{tr.heroLocation}</div>
+              <div className="mt-4 text-xs text-neutral-500 text-center">{tr.heroLocation}</div>
             </div>
             <div className="md:col-span-2 order-2 md:order-1">
               <p className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-600 shadow-sm">
