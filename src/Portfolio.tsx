@@ -242,7 +242,7 @@ export default function Portfolio() {
           <EduCard
             school="Walailak University"
             program="B.Sc., Information Technology & Digital Innovation"
-            years="2022 – Present"
+            years="2022 – 2025"
             gpx="2.95"
           />
           <EduCard
