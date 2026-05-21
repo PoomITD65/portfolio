@@ -148,7 +148,12 @@ export default function Portfolio() {
           <ProjectCard
             title="Ultrafine Particles (PM0.1) Prediction"
             time="2024 – Present"
+            publication={{
+              journal: "Journal of Building Engineering (Scopus Q1, 99th Percentile)",
+              badge: "Scopus Q1",
+            }}
             bullets={[
+              "Co-authored: \"Ultrafine particle concentration modeling from incense burning: An interpretable machine learning approach using ambient indoor conditions\"",
               "Built ML models to predict PM0.1 from meteorological features",
               "Simulated shrines: collected dust, temperature, wind speed, humidity",
               "Designed a realtime web dashboard",
@@ -330,13 +335,21 @@ function Tag({ children }: { children: ReactNode }) {
   );
 }
 
-function ProjectCard({ title, time, bullets }: { title: string; time: string; bullets: string[] }) {
+function ProjectCard({ title, time, bullets, publication }: { title: string; time: string; bullets: string[]; publication?: { journal: string; badge: string } }) {
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-baseline justify-between gap-2 flex-wrap">
         <h3 className="text-lg font-semibold">{title}</h3>
         <span className="text-sm text-neutral-500">{time}</span>
       </div>
+      {publication && (
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+            📄 Published · {publication.badge}
+          </span>
+          <span className="text-xs text-neutral-500 italic">{publication.journal}</span>
+        </div>
+      )}
       <ul className="mt-3 space-y-2 list-disc list-inside text-neutral-700">
         {bullets.map((b, i) => (
           <li key={i}>{b}</li>
