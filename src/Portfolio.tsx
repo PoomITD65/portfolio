@@ -330,7 +330,7 @@ export default function Portfolio() {
             image={`${import.meta.env.BASE_URL}publication-pm01.jpg`}
             bullets={[...tr.proj1Bullets]}
           />
-          <ProjectCard title={tr.proj2Title} time={tr.proj2Time} bullets={[...tr.proj2Bullets]} />
+          <ProjectCard title={tr.proj2Title} time={tr.proj2Time} image={`${import.meta.env.BASE_URL}spendlog.png`} bullets={[...tr.proj2Bullets]} />
           <ProjectCard title={tr.proj3Title} time={tr.proj3Time} bullets={[...tr.proj3Bullets]} />
           <ProjectCard title={tr.proj4Title} time={tr.proj4Time} bullets={[...tr.proj4Bullets]} />
         </div>
