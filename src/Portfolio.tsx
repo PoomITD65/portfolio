@@ -350,7 +350,7 @@ export default function Portfolio() {
       {/* Education */}
       <SiteSection id="education" title={tr.eduTitle}>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
-          <EduCard school={tr.edu1School} program={tr.edu1Program} years={tr.edu1Years} gpx="2.95" />
+          <EduCard school={tr.edu1School} program={tr.edu1Program} years={tr.edu1Years} gpx="2.94" />
           <EduCard school={tr.edu2School} program={tr.edu2Program} years={tr.edu2Years} gpx="3.25" />
         </div>
       </SiteSection>
